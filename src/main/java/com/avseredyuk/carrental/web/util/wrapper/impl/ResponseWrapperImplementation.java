@@ -9,7 +9,7 @@ import java.io.IOException;
  * Created by lenfer on 1/29/17.
  */
 public class ResponseWrapperImplementation implements ResponseWrapper {
-    private HttpServletResponse resp;
+    private final HttpServletResponse resp;
 
     public ResponseWrapperImplementation(HttpServletResponse resp) {
         this.resp = resp;

@@ -10,7 +10,7 @@ import java.util.Map;
  * Created by lenfer on 1/29/17.
  */
 public class RequestWrapperImplementation implements RequestWrapper {
-    private HttpServletRequest req;
+    private final HttpServletRequest req;
 
     public RequestWrapperImplementation(HttpServletRequest req) {
         this.req = req;

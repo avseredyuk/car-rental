@@ -4,10 +4,10 @@ package com.avseredyuk.carrental.web.util;
  * Created by lenfer on 1/25/17.
  */
 public class PaginationInformation {
-    private Integer currentPage;
-    private Integer numberOfPages;
-    private Integer startIndex;
-    private Integer itemsPerPage;
+    private final Integer currentPage;
+    private final Integer numberOfPages;
+    private final Integer startIndex;
+    private final Integer itemsPerPage;
 
     public PaginationInformation(Integer currentPage, Integer numberOfPages, Integer startIndex, Integer itemsPerPage) {
         this.currentPage = currentPage;

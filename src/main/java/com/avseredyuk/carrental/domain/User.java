@@ -16,7 +16,7 @@ public class User implements BasicEntity {
     private Role role;
 
     public enum Role {
-        ADMINISTRATOR, CLIENT;
+        ADMINISTRATOR, CLIENT
     }
 
     public User() {

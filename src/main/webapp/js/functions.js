@@ -9,14 +9,14 @@ function toggle(showHideDiv) {
 }
 
 function selectFirstItemRow() {
-    sel = document.getElementById("automobileselect");
+    var sel = document.getElementById("automobileselect");
     sel.fireEvent("onchange");
 }
 
 function showItemBySelect(elem) {
     var items = document.getElementsByClassName("item");
     var selectedId = elem.value;
-    for (i = 0; i < items.length; i++) {
+    for (var i = 0; i < items.length; i++) {
         if(items[i].id == selectedId) {
             items[i].style.display="";
         } else {
@@ -31,7 +31,7 @@ function showItemById(id) {
 
 function validate_form(errorString){
     var items = document.getElementsByClassName("inputform");
-    for (i = 0; i < items.length; i++) {
+    for (var i = 0; i < items.length; i++) {
         if (items[i].value === "") {
             document.getElementById('errorStatus').style.display = "block";
             document.getElementById('errorStatus').getElementsByTagName('a').item(0).textContent = errorString;

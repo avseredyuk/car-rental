@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
  * Created by lenfer on 1/29/17.
  */
 public class SessionWrapperImplementation implements SessionWrapper {
-    private HttpSession session;
+    private final HttpSession session;
 
     public SessionWrapperImplementation(HttpSession session) {
         this.session = session;

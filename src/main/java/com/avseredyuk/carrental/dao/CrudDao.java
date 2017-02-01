@@ -64,7 +64,7 @@ public interface CrudDao<T extends BasicEntity> {
     default boolean update(T object, String propertyKeyQuery) {
         String query = PropertiesUtil.getProperty(propertyKeyQuery, PropertiesUtil.Source.QUERIES);
         try (Connection connection = PoolWorker.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query);) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
             prepareStatement(statement, object, true);
             if (statement.executeUpdate() != 1) {
                 throw new DaoException(String.format("Error during updating object %s", object));

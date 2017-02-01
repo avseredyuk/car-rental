@@ -19,7 +19,7 @@ public class Order implements BasicEntity {
     private Integer sum;
 
     public enum OrderStatus {
-        CREATED, REJECTED, PAID, GIVEN_OUT, RETURNED;
+        CREATED, REJECTED, PAID, GIVEN_OUT, RETURNED
     }
 
     public Order() {

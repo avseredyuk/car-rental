@@ -4,7 +4,6 @@ import com.avseredyuk.carrental.domain.User;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
-import com.avseredyuk.carrental.web.command.impl.place.CommandCreatePlace;
 import com.avseredyuk.carrental.web.util.ConstantClass;
 import com.avseredyuk.carrental.web.util.HashingUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
