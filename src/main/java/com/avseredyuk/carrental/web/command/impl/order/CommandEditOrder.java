@@ -6,17 +6,9 @@ import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.exception.CommandExecutionException;
 import com.avseredyuk.carrental.web.util.ConstantClass;
-import com.avseredyuk.carrental.web.util.InvoiceUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import org.apache.log4j.Logger;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import static com.avseredyuk.carrental.web.util.ConstantClass.MINIMUM_DIFF_HOURS;
 
 /**
  * Created by lenfer on 1/19/17.
