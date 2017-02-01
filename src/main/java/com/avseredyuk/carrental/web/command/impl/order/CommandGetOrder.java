@@ -40,8 +40,6 @@ public class CommandGetOrder implements Command {
 
             List<DeliveryPlace> places = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().findAll();
             req.setAttribute(ConstantClass.PLACES, places);
-            List<Automobile> automobiles = ServiceFactoryImplementation.getInstance().getAutomobileService().findAll();
-            req.setAttribute(ConstantClass.AUTOMOBILES, automobiles);
             List<User> users = ServiceFactoryImplementation.getInstance().getUserService().findAll();
             req.setAttribute(ConstantClass.USERS, users);
 

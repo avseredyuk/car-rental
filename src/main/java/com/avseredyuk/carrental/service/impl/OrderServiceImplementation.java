@@ -37,8 +37,8 @@ public class OrderServiceImplementation implements OrderService {
     }
 
     @Override
-    public boolean update(Order object) {
-        return MySqlDaoFactory.getInstance().getOrderDao().update(object);
+    public boolean update(Order order) {
+        return MySqlDaoFactory.getInstance().getOrderDao().update(order);
     }
 
     @Override

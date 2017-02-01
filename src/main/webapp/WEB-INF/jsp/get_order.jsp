@@ -14,7 +14,7 @@
                 <tr>
                     <td>
                         <div id="errorStatus" style="display:<c:choose><c:when test="${empty errorStatus}">none</c:when><c:otherwise>block</c:otherwise></c:choose>"><a href="javascript:toggle('errorStatus');"></a></div>
-                        <form method="POST" action="${pageContext.request.contextPath}/" onsubmit="return validate_form('<fmt:message key="error.validation.form" bundle="${bundle}"/>');">
+                        <form method="POST" action="${pageContext.request.contextPath}/">
                             <input type="hidden" name="command" value="edit_order"/>
                             <input type="hidden" name="return" value="${requestScope.referer}"/>
                             <input type="hidden" name="order_id" value="${order.id}"/>
@@ -34,11 +34,9 @@
                             </select><br/>
 
                             <fmt:message key="orders.automobile" bundle="${bundle}"/>:<br/>
-                            <select name="automobiles">
-                                <c:forEach items="${automobiles}" var="automobile">
-                                    <option value="${automobile.id}" <c:if test="${order.automobile.id == automobile.id}">selected</c:if>>${fn:escapeXml(automobile.manufacturer)} ${fn:escapeXml(automobile.model)}</option>
-                                </c:forEach>
-                            </select><br/>
+                            <a href="${pageContext.request.contextPath}/?command=get_automobile&automobile_id=${order.automobile.id}">
+                                ${fn:escapeXml(order.automobile.manufacturer)} ${fn:escapeXml(order.automobile.model)} ${order.automobile.yearOfProduction}
+                            </a><br/>
 
                             <fmt:message key="orders.user" bundle="${bundle}"/>:<br/>
                             <select name="users">
@@ -56,15 +54,13 @@
                             <input type="checkbox" name="damage_paid" <c:if test="${order.damage.paid}">checked="checked"</c:if> /><br/>
 
                             <fmt:message key="orders.datefrom" bundle="${bundle}"/>:<br/>
-                            <fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm" value="${order.dateFrom}" var="dateFrom"/>
-                            <input type="datetime-local" name="date_from" value="${dateFrom}"><br/>
+                            <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${order.dateFrom}"/><br/>
 
                             <fmt:message key="orders.dateto" bundle="${bundle}"/>:<br/>
-                            <fmt:formatDate pattern="yyyy-MM-dd'T'HH:mm" value="${order.dateTo}" var="dateTo"/>
-                            <input type="datetime-local" name="date_to" value="${dateTo}"><br/>
+                            <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${order.dateTo}"/><br/>
 
                             <fmt:message key="orders.datecreated" bundle="${bundle}"/>:<br/>
-                            <fmt:formatDate pattern="DD.MM.YYYY HH:mm:ss" value="${order.created}"/><br/>
+                            <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${order.created}"/><br/>
 
                             <fmt:message key="orders.status" bundle="${bundle}"/>:<br/>
                             <select name="status">
@@ -74,7 +70,7 @@
                             </select><br/>
 
                             <fmt:message key="orders.sum" bundle="${bundle}"/>:<br/>
-                            <input type="number" name="order_sum" class="inputform" value="${order.sum}"/><br/>
+                            ${order.sum}<br/>
 
                             <input type="submit" value="<fmt:message key="save" bundle="${bundle}"/>"/>
                         </form>

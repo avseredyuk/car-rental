@@ -4,14 +4,19 @@ import com.avseredyuk.carrental.domain.*;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
+import com.avseredyuk.carrental.web.exception.CommandExecutionException;
 import com.avseredyuk.carrental.web.util.ConstantClass;
+import com.avseredyuk.carrental.web.util.InvoiceUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
+import static com.avseredyuk.carrental.web.util.ConstantClass.MINIMUM_DIFF_HOURS;
 
 /**
  * Created by lenfer on 1/19/17.
@@ -29,7 +34,6 @@ public class CommandEditOrder implements Command {
             int orderId = Integer.parseInt(req.getParameter(ConstantClass.ORDER_ID));
             int placeFromId = Integer.parseInt(req.getParameter(ConstantClass.PLACES_FROM));
             int placeToId = Integer.parseInt(req.getParameter(ConstantClass.PLACES_TO));
-            int automobileId = Integer.parseInt(req.getParameter(ConstantClass.AUTOMOBILES));
             int userId = Integer.parseInt(req.getParameter(ConstantClass.USERS));
 
             Damage damage = null;
@@ -60,22 +64,21 @@ public class CommandEditOrder implements Command {
                 }
             }
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            Date dateFrom = simpleDateFormat.parse(req.getParameter(ConstantClass.DATE_FROM));
-            Date dateTo = simpleDateFormat.parse(req.getParameter(ConstantClass.DATE_TO));
-            Order.OrderStatus orderStatus = Order.OrderStatus.valueOf(req.getParameter(ConstantClass.STATUS));
-            int sum = Integer.parseInt(req.getParameter(ConstantClass.ORDER_SUM));
+            Order order = ServiceFactoryImplementation.getInstance().getOrderService().read(orderId);
+            if (order == null) {
+                throw new CommandExecutionException();
+            }
+            order.setStatus(Order.OrderStatus.valueOf(req.getParameter(ConstantClass.STATUS)));
+            order.setPlaceFrom(new DeliveryPlace(placeFromId));
+            order.setPlaceTo(new DeliveryPlace(placeToId));
+            order.setUser(new User(userId));
+            order.setDamage(damage);
 
-            DeliveryPlace placeFrom = new DeliveryPlace(placeFromId);
-            DeliveryPlace placeTo = new DeliveryPlace(placeToId);
-            Automobile automobile = new Automobile(automobileId);
-            User user = new User(userId);
-            Order order = new Order(orderId, placeFrom, placeTo, automobile, user, damage, dateFrom, dateTo, orderStatus, sum);
             if (!ServiceFactoryImplementation.getInstance().getOrderService().update(order)) {
                 logger.info("invalid data on update order");
                 req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
             }
-        } catch(NumberFormatException | ParseException e) {
+        } catch (NumberFormatException | CommandExecutionException e) {
             logger.info("invalid data on edit order", e);
             req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
         }
