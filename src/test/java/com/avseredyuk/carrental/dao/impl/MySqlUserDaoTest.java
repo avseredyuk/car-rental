@@ -12,11 +12,12 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static com.avseredyuk.carrental.util.DateUtil.*;
+import static com.avseredyuk.carrental.util.Utils.*;
 
 /**
  * Created by lenfer on 1/27/17.
  */
-public class MySqlUserDaoTest extends Utils {
+public class MySqlUserDaoTest {
     public static final String USER_NAME_2 = "Vasya";
     public static final String USER_SURNAME_2 = "Pupkin";
     public static final String USER_EMAIL_2 = "qwertywww@mailattoilet.com";

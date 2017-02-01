@@ -1,6 +1,6 @@
 package com.avseredyuk.carrental.web.command.impl.auth;
 
-import com.avseredyuk.carrental.dao.impl.Utils;
+import com.avseredyuk.carrental.util.Utils;
 import com.avseredyuk.carrental.domain.User;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.util.RandomUtil;

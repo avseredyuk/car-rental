@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static com.avseredyuk.carrental.util.Utils.*;
 
 /**
  * Created by lenfer on 1/25/17.
  */
-public class MySqlDeliveryPlaceDaoTest extends Utils {
+public class MySqlDeliveryPlaceDaoTest {
     public static final DeliveryPlace.DeliveryPlaceType PLACE_TYPE_2 = DeliveryPlace.DeliveryPlaceType.OFFICE;
     public static final String PLACE_NAME_2 = "Place Name";
     public static final String PLACE_ADDRESS_2 = "Place Address";

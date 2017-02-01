@@ -9,12 +9,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.avseredyuk.carrental.util.Utils.*;
 import static org.junit.Assert.*;
 
 /**
  * Created by lenfer on 1/28/17.
  */
-public class MySqlAutomobileDaoTest extends Utils {
+public class MySqlAutomobileDaoTest {
     public static final String AUTOMOBILE_MODEL_2 = "Yaris";
     public static final String AUTOMOBILE_MANUFACTURER_2 = "Toyota";
     public static final int AUTOMOBILE_YEAR_2 = 1999;

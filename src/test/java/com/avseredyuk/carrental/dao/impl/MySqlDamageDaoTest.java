@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static com.avseredyuk.carrental.util.Utils.*;
 
 /**
  * Created by lenfer on 1/28/17.
  */
-public class MySqlDamageDaoTest extends Utils {
+public class MySqlDamageDaoTest {
     public static final String DAMAGE_DESCRIPTION_2 = "Totally wrecked";
     private Damage randomDamage;
     private List<Damage> randomDamages = new ArrayList<>();

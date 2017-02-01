@@ -1,4 +1,4 @@
-package com.avseredyuk.carrental.dao.impl;
+package com.avseredyuk.carrental.util;
 
 import com.avseredyuk.carrental.dao.impl.pool.PoolWorker;
 
@@ -87,7 +87,7 @@ public class Utils {
             "ALTER TABLE `users` ADD CONSTRAINT `users_uc1` UNIQUE (`login`);\n" +
             "ALTER TABLE `users` ADD CONSTRAINT `users_uc2` UNIQUE (`email`);";
 
-    public boolean resetDB() {
+    public static boolean resetDB() {
         try (Connection connection = PoolWorker.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(RECREATE_TESTDB)) {
             statement.execute();

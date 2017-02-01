@@ -13,12 +13,12 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static com.avseredyuk.carrental.util.DateUtil.*;
+import static com.avseredyuk.carrental.util.Utils.*;
 
 /**
  * Created by lenfer on 1/28/17.
  */
-public class MySqlOrderDaoTest extends Utils {
-    public static final int ORDER_SUM_2 = 123456;
+public class MySqlOrderDaoTest {
     private Order randomOrder;
     private List<Order> randomOrders = new ArrayList<>();
     private MySqlOrderDao dao = MySqlDaoFactory.getInstance().getOrderDao();

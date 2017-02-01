@@ -1,6 +1,6 @@
 package com.avseredyuk.carrental.web.command.impl.order;
 
-import com.avseredyuk.carrental.dao.impl.Utils;
+import com.avseredyuk.carrental.util.Utils;
 import com.avseredyuk.carrental.domain.Automobile;
 import com.avseredyuk.carrental.domain.DeliveryPlace;
 import com.avseredyuk.carrental.domain.Order;
