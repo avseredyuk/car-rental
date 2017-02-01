@@ -1,0 +1,103 @@
+package com.avseredyuk.carrental.web.util;
+
+/**
+ * Created by lenfer on 1/24/17.
+ */
+public final class ConstantClass {
+    public static final String COMMAND_SHOW_INDEX = "SHOW_INDEX";
+    public static final String COMMAND_GET_ALL_AUTOMOBILES = "GET_ALL_AUTOMOBILES";
+    public static final String COMMAND_GET_AUTOMOBILE = "GET_AUTOMOBILE";
+    public static final String COMMAND_DELETE_AUTOMOBILE = "DELETE_AUTOMOBILE";
+    public static final String COMMAND_EDIT_AUTOMOBILE = "EDIT_AUTOMOBILE";
+    public static final String COMMAND_CREATE_AUTOMOBILE = "CREATE_AUTOMOBILE";
+    public static final String COMMAND_GET_ALL_USERS = "GET_ALL_USERS";
+    public static final String COMMAND_DELETE_USER = "DELETE_USER";
+    public static final String COMMAND_GET_USER = "GET_USER";
+    public static final String COMMAND_EDIT_USER = "EDIT_USER";
+    public static final String COMMAND_CREATE_USER = "CREATE_USER";
+    public static final String COMMAND_SHOW_LOGIN = "SHOW_LOGIN";
+    public static final String COMMAND_LOGIN = "LOGIN";
+    public static final String COMMAND_LOGOUT = "LOGOUT";
+    public static final String COMMAND_SHOW_REGISTER = "SHOW_REGISTER";
+    public static final String COMMAND_REGISTER = "REGISTER";
+    public static final String COMMAND_GET_ALL_PLACES = "GET_ALL_PLACES";
+    public static final String COMMAND_CREATE_PLACE = "CREATE_PLACE";
+    public static final String COMMAND_DELETE_PLACE = "DELETE_PLACE";
+    public static final String COMMAND_GET_PLACE = "GET_PLACE";
+    public static final String COMMAND_EDIT_PLACE = "EDIT_PLACE";
+    public static final String COMMAND_SHOW_NOT_FOUND = "SHOW_NOT_FOUND";
+    public static final String COMMAND_GET_ALL_ORDERS = "GET_ALL_ORDERS";
+    public static final String COMMAND_SHOW_FORBIDDEN = "SHOW_FORBIDDEN";
+    public static final String COMMAND_DELETE_ORDER = "DELETE_ORDER";
+    public static final String COMMAND_MAKE_ORDER = "MAKE_ORDER";
+    public static final String COMMAND_GET_ORDER = "GET_ORDER";
+    public static final String COMMAND_EDIT_ORDER = "EDIT_ORDER";
+    public static final String COMMAND_SHOW_PROFILE = "SHOW_PROFILE";
+    public static final String COMMAND_UPDATE_PROFILE = "UPDATE_PROFILE";
+    public static final String COMMAND_CHANGE_LOCALE = "CHANGE_LOCALE";
+    public static final String COMMAND_CHANGE_ITEMSPERPAGE = "CHANGE_ITEMSPERPAGE";
+    public static final String LOCALE = "locale";
+    public static final String YEAR_OF_PRODUCTION = "yearOfProduction";
+    public static final String MANUFACTURER = "manufacturer";
+    public static final String MODEL = "model";
+    public static final String CATEGORY = "category";
+    public static final String FUEL = "fuel";
+    public static final String TRANSMISSION = "transmission";
+    public static final String PASSENGER_CAPACITY = "passengerCapacity";
+    public static final String CARGO_CAPACITY = "cargoCapacity";
+    public static final String DOORS_COUNT = "doorsCount";
+    public static final String PRICE_PER_DAY = "pricePerDay";
+    public static final String AUTOMOBILE_ID = "automobile_id";
+    public static final String ERROR_STATUS = "errorStatus";
+    public static final String PAGE = "page";
+    public static final String PLACES = "places";
+    public static final String AUTOMOBILES = "automobiles";
+    public static final String PAGINATION_INFORMATION = "paginationInformation";
+    public static final String COMMAND = "command";
+    public static final String CATEGORY_VALUES = "categoryValues";
+    public static final String FUEL_VALUES = "fuelValues";
+    public static final String TRANSMISSION_VALUES = "transmissionValues";
+    public static final String AUTOMOBILE = "automobile";
+    public static final String PLACETYPE_VALUES = "placetypeValues";
+    public static final String PLACENAME = "name";
+    public static final String PLACEADDRESS = "address";
+    public static final String PLACETYPE = "type";
+    public static final String PLACE = "place";
+    public static final String PLACE_ID = "place_id";
+    public static final String USER_ID = "user_id";
+    public static final String ROLES_VALUES = "rolesValues";
+    public static final String USER = "user";
+    public static final String USERS = "users";
+    public static final String USERLOGIN = "login";
+    public static final String USEREMAIL = "email";
+    public static final String USERNAME = "name";
+    public static final String USERSURNAME = "surname";
+    public static final String USERPASSWORD = "password";
+    public static final String USERROLE = "role";
+    public static final String ORDER_ID = "order_id";
+    public static final String ORDERS = "orders";
+    public static final String ORDER = "order";
+    public static final String STATUS_VALUES = "statusValues";
+    public static final String PLACES_FROM = "places_from";
+    public static final String PLACES_TO = "places_to";
+    public static final String DAMAGE_ID = "damage_id";
+    public static final String DAMAGE_SUM = "damage_sum";
+    public static final String DAMAGE_DESCRIPTION = "damage_description";
+    public static final String DAMAGE_PAID = "damage_paid";
+    public static final String DATE_FROM = "date_from";
+    public static final String DATE_TO = "date_to";
+    public static final String DATE_CREATED = "date_created";
+    public static final String STATUS = "status";
+    public static final String ORDER_SUM = "order_sum";
+    public static final String REFERER = "referer";
+    public static final String ORDERSTEP = "step";
+    public static final String DATE_NOW = "date_now";
+    public static final String PLACE_FROM = "place_from";
+    public static final String PLACE_TO = "place_to";
+    public static final String RETURN = "return";
+    public static final String REQUEST_URI = "requestURI";
+    public static final String ITEMS_PER_PAGE = "items_per_page";
+
+    private ConstantClass() {
+    }
+}

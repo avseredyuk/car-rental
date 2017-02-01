@@ -1,0 +1,57 @@
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://java.sun.com/xml/ns/javaee"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>Archetype Created Web Application</display-name>
+
+  <jsp-config>
+    <taglib>
+      <taglib-uri>customtags</taglib-uri>
+      <taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+  <servlet>
+    <servlet-name>ControllerServlet</servlet-name>
+    <servlet-class>com.avseredyuk.carrental.web.servlet.ControllerServlet</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerServlet</servlet-name>
+    <url-pattern></url-pattern>
+  </servlet-mapping>
+  <filter>
+    <filter-name>CodepageFilter</filter-name>
+    <filter-class>com.avseredyuk.carrental.web.filter.CodepageFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CodepageFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>LocaleFilter</filter-name>
+    <filter-class>com.avseredyuk.carrental.web.filter.LocaleFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LocaleFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>RequestParametersFilter</filter-name>
+    <filter-class>com.avseredyuk.carrental.web.filter.RequestParametersFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>RequestParametersFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>ErrorStatusFilter</filter-name>
+    <filter-class>com.avseredyuk.carrental.web.filter.ErrorStatusFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ErrorStatusFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <listener>
+    <listener-class>com.avseredyuk.carrental.listener.ApplicationContextListener</listener-class>
+  </listener>
+</web-app>
