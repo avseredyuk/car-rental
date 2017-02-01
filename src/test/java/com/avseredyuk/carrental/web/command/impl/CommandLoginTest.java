@@ -1,5 +1,6 @@
 package com.avseredyuk.carrental.web.command.impl;
 
+import com.avseredyuk.carrental.service.UserService;
 import com.avseredyuk.carrental.util.Utils;
 import com.avseredyuk.carrental.domain.User;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
@@ -24,6 +25,7 @@ public class CommandLoginTest extends Utils {
     RequestWrapper req = mock(RequestWrapper.class);
     ResponseWrapper resp = mock(ResponseWrapper.class);
     SessionWrapper session = mock(SessionWrapper.class);
+    UserService userService = ServiceFactoryImplementation.getInstance().getUserService();
 
     @Before
     public void setUp() throws Exception {
@@ -61,7 +63,7 @@ public class CommandLoginTest extends Utils {
         User user = RandomUtil.getUser();
         String cleartextPassword = user.getPassword();
         user.setPassword(HashingUtil.hashPassword(cleartextPassword));
-        ServiceFactoryImplementation.getInstance().getUserService().persist(user);
+        userService.persist(user);
 
         when(req.getParameter(USERLOGIN)).thenReturn(user.getLogin());
         when(req.getParameter(USERPASSWORD)).thenReturn(cleartextPassword);
@@ -81,7 +83,7 @@ public class CommandLoginTest extends Utils {
         User user = RandomUtil.getUser();
         String cleartextPassword = user.getPassword();
         user.setPassword(HashingUtil.hashPassword(cleartextPassword));
-        ServiceFactoryImplementation.getInstance().getUserService().persist(user);
+        userService.persist(user);
 
         when(req.getParameter(USERLOGIN)).thenReturn(user.getLogin());
         when(req.getParameter(USERPASSWORD)).thenReturn(cleartextPassword);
