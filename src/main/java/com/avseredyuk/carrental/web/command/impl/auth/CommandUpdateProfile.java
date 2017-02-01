@@ -7,6 +7,7 @@ import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.exception.CommandExecutionException;
 import com.avseredyuk.carrental.web.util.ConstantClass;
 import com.avseredyuk.carrental.web.util.HashingUtil;
+import com.avseredyuk.carrental.web.util.ParametersVerifier;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import org.apache.log4j.Logger;
@@ -24,14 +25,18 @@ public class CommandUpdateProfile implements Command {
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
         }
         try {
-            String login = (String) req.getSession().getAttribute(ConstantClass.USERLOGIN);
             String email = req.getParameter(ConstantClass.USEREMAIL);
             String name = req.getParameter(ConstantClass.USERNAME);
             String surname = req.getParameter(ConstantClass.USERSURNAME);
+            if (!ParametersVerifier.checkAllNotEmpty(email, name, surname)) {
+                throw new CommandExecutionException();
+            }
             String password = req.getParameter(ConstantClass.USERPASSWORD);
 
+            String login = (String) req.getSession().getAttribute(ConstantClass.USERLOGIN);
+
             User user = ServiceFactoryImplementation.getInstance().getUserService().getByLogin(login);
-            if (user == null)  {
+            if (user == null) {
                 throw new CommandExecutionException();
             }
             user.setEmail(email);
