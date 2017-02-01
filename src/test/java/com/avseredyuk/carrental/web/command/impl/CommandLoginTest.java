@@ -5,6 +5,7 @@ import com.avseredyuk.carrental.util.Utils;
 import com.avseredyuk.carrental.domain.User;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.util.RandomUtil;
+import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.exception.CommandRedirectException;
 import com.avseredyuk.carrental.web.util.HashingUtil;
@@ -26,6 +27,7 @@ public class CommandLoginTest extends Utils {
     ResponseWrapper resp = mock(ResponseWrapper.class);
     SessionWrapper session = mock(SessionWrapper.class);
     UserService userService = ServiceFactoryImplementation.getInstance().getUserService();
+    Command command = CommandFactory.getInstance().getByName(COMMAND_LOGIN);
 
     @Before
     public void setUp() throws Exception {
@@ -37,7 +39,7 @@ public class CommandLoginTest extends Utils {
         when(req.getParameter(USERLOGIN)).thenReturn("");
         when(req.getParameter(USERPASSWORD)).thenReturn("");
 
-        CommandFactory.getInstance().getByName(COMMAND_LOGIN).execute(req, resp);
+        command.execute(req, resp);
 
         verify(req).setAttribute(ERROR_STATUS, "error.login");
         verify(req, never()).getSession();
@@ -50,7 +52,7 @@ public class CommandLoginTest extends Utils {
         when(req.getParameter(USERPASSWORD)).thenReturn(user.getPassword());
         when(req.getSession()).thenReturn(session);
 
-        CommandFactory.getInstance().getByName(COMMAND_LOGIN).execute(req, resp);
+        command.execute(req, resp);
 
         verify(req).setAttribute(ERROR_STATUS, "error.login");
         verify(req).getSession();
@@ -70,7 +72,7 @@ public class CommandLoginTest extends Utils {
         when(req.getSession()).thenReturn(session);
         when(req.getParameter(RETURN)).thenReturn(REDIRECT_URL);
 
-        CommandFactory.getInstance().getByName(COMMAND_LOGIN).execute(req, resp);
+        command.execute(req, resp);
 
         verify(req).getSession();
         verify(session).setAttribute(USERROLE, user.getRole().toString());
@@ -89,7 +91,7 @@ public class CommandLoginTest extends Utils {
         when(req.getParameter(USERPASSWORD)).thenReturn(cleartextPassword);
         when(req.getSession()).thenReturn(session);
 
-        CommandFactory.getInstance().getByName(COMMAND_LOGIN).execute(req, resp);
+        command.execute(req, resp);
 
         verify(req, atLeast(1)).getSession();
         verify(session).setAttribute(USERROLE, user.getRole().toString());

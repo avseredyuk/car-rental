@@ -77,7 +77,4 @@ public class AuthorizationServiceImplementationTest {
         assertTrue(authService.login(user.getLogin(), cleartextPassword, session));
     }
 
-
-
-
 }
