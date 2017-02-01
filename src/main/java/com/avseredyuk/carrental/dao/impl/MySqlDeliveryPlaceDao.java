@@ -55,7 +55,7 @@ public class MySqlDeliveryPlaceDao implements DeliveryPlaceDao {
 
     @Override
     public List<DeliveryPlace> parseResultSet(ResultSet resultSet) throws DaoException {
-        LinkedList<DeliveryPlace> result = new LinkedList<>();
+        List<DeliveryPlace> result = new LinkedList<>();
         try {
             while (resultSet.next()) {
                 DeliveryPlace deliveryPlace = new DeliveryPlace(

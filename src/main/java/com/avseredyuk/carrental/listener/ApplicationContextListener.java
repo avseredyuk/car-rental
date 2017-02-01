@@ -1,5 +1,6 @@
 package com.avseredyuk.carrental.listener;
 
+import com.avseredyuk.carrental.dao.impl.pool.PoolWorker;
 import com.avseredyuk.carrental.domain.Automobile;
 import com.avseredyuk.carrental.domain.DeliveryPlace;
 import com.avseredyuk.carrental.domain.Order;
@@ -28,6 +29,6 @@ public class ApplicationContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        // do nothing
+        PoolWorker.getInstance().close();
     }
 }

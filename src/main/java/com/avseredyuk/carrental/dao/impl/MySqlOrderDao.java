@@ -108,7 +108,7 @@ public class MySqlOrderDao implements OrderDao {
 
     @Override
     public List<Order> parseResultSet(ResultSet resultSet) throws DaoException {
-        LinkedList<Order> result = new LinkedList<>();
+        List<Order> result = new LinkedList<>();
         try {
             while (resultSet.next()) {
                 Order order = new Order();

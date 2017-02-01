@@ -86,7 +86,7 @@ public class MySqlUserDao implements UserDao {
 
     @Override
     public List<User> parseResultSet(ResultSet resultSet) throws DaoException {
-        LinkedList<User> result = new LinkedList<>();
+        List<User> result = new LinkedList<>();
         try {
             while (resultSet.next()) {
                 User user = new User();

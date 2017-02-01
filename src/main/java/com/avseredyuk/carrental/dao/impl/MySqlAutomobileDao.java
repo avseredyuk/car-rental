@@ -90,7 +90,7 @@ public class MySqlAutomobileDao implements AutomobileDao {
 
     @Override
     public List<Automobile> parseResultSet(ResultSet resultSet) throws DaoException {
-        LinkedList<Automobile> result = new LinkedList<>();
+        List<Automobile> result = new LinkedList<>();
         try {
             while (resultSet.next()) {
                 Automobile automobile = new Automobile();

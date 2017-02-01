@@ -55,7 +55,7 @@ public class MySqlDamageDao implements DamageDao {
 
     @Override
     public List<Damage> parseResultSet(ResultSet resultSet) throws DaoException {
-        LinkedList<Damage> result = new LinkedList<>();
+        List<Damage> result = new LinkedList<>();
         try {
             while (resultSet.next()) {
                 Damage damage = new Damage();
