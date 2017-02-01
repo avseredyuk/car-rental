@@ -86,7 +86,6 @@ public final class ConstantClass {
     public static final String DAMAGE_PAID = "damage_paid";
     public static final String DATE_FROM = "date_from";
     public static final String DATE_TO = "date_to";
-    public static final String DATE_CREATED = "date_created";
     public static final String STATUS = "status";
     public static final String ORDER_SUM = "order_sum";
     public static final String REFERER = "referer";
