@@ -27,7 +27,7 @@
                             <fmt:message key="login.surname" bundle="${bundle}"/>:<br/>
                             <input type="text" name="surname" class="inputform" value="${fn:escapeXml(user.surname)}"/><br/>
                             <fmt:message key="users.registered" bundle="${bundle}"/><br/>
-                            <fmt:formatDate pattern="DD.MM.YYYY HH:mm:ss" value="${user.registered}"/><br/>
+                            <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${user.registered}"/><br/>
                             <fmt:message key="login.role" bundle="${bundle}"/>:<br/>
                             <select name="role">
                                 <c:forEach items="${rolesValues}" var="roleValue">

@@ -37,7 +37,7 @@
                         <td id="rightcol">${fn:escapeXml(user.surname)}</td>
                         <td id="rightcol"><fmt:message key="client.type.${user.role}" bundle="${bundle}"/></td>
                         <td id="rightcol">
-                            <fmt:formatDate pattern="DD.MM.YYYY HH:mm:ss" value="${user.registered}"/>
+                            <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${user.registered}"/>
                         </td>
                         <td id="rightcol">
                             <a href="${pageContext.request.contextPath}/?command=get_user&user_id=${user.id}"><fmt:message key="action.edit" bundle="${bundle}"/></a>
