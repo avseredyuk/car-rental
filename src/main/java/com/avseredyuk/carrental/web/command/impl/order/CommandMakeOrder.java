@@ -26,8 +26,8 @@ public class CommandMakeOrder implements Command {
         String step = req.getParameter(ConstantClass.ORDERSTEP);
         try {
             return OrderSteps.valueOf(step.toUpperCase()).getProcessor().process(req, resp);
-        } catch (IllegalArgumentException | NullPointerException e) {
-            logger.error("command not found: " + e);
+        } catch (IllegalArgumentException e) {
+            logger.error("error parsing steps at making order" + e);
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_NOT_FOUND).execute(req, resp);
         }
     }

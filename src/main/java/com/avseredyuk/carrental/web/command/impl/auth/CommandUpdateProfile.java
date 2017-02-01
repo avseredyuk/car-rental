@@ -20,6 +20,7 @@ public class CommandUpdateProfile implements Command {
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.CLIENT, req.getSession())) {
+            logger.info("trying to access without permissions");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
         }
         try {
@@ -44,8 +45,8 @@ public class CommandUpdateProfile implements Command {
             } else {
                 req.setAttribute(ConstantClass.ERROR_STATUS, "success.update.profile");
             }
-        } catch(NumberFormatException | CommandExecutionException e) {
-            logger.info("invalid data on update profile: " + e);
+        } catch(CommandExecutionException e) {
+            logger.info("invalid data on update profile", e);
             req.setAttribute(ConstantClass.ERROR_STATUS, "error.update.profile");
         }
         return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_PROFILE).execute(req, resp);

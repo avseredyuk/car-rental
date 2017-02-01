@@ -21,6 +21,7 @@ public class CommandGetPlace implements Command {
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.ADMINISTRATOR, req.getSession())) {
+            logger.info("trying to access without permissions");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
         }
         String page = ConfigurationManager.getProperty("path.page.getplace");
@@ -28,13 +29,13 @@ public class CommandGetPlace implements Command {
         try {
             int placeId = Integer.parseInt(req.getParameter(ConstantClass.PLACE_ID));
             DeliveryPlace deliveryPlace = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().read(placeId);
-            if(deliveryPlace == null) {
+            if (deliveryPlace == null) {
                 throw new CommandExecutionException();
             }
             req.setAttribute(ConstantClass.PLACE, deliveryPlace);
 
         } catch(NumberFormatException | CommandExecutionException e) {
-            logger.info("invalid data on get place: " + e);
+            logger.info("invalid data on get place", e);
             req.setAttribute(ConstantClass.ERROR_STATUS, "error.get.place");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_PLACES).execute(req, resp);
         }

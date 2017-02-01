@@ -45,6 +45,7 @@ public class ThirdStepProcessor implements OrderStepProcessor {
             } else if (session.getAttribute(AUTOMOBILE) != null) {
                 automobile = (Automobile) session.getAttribute(AUTOMOBILE);
             } else {
+                logger.info("automobile not found on step3");
                 return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req, resp);
             }
             session.setAttribute(ORDER_SUM, InvoiceUtil.calculateSum(automobile,
@@ -52,7 +53,7 @@ public class ThirdStepProcessor implements OrderStepProcessor {
                     (Date) session.getAttribute(DATE_TO)).toString());
 
         } catch (CommandExecutionException e) {
-            logger.error("automobile read error: " + e);
+            logger.info("automobile read error", e);
             return ConfigurationManager.getProperty("path.page.error.makeorder");
         }
         return login == null ? ConfigurationManager.getProperty("path.page.makeorder.3") :

@@ -12,6 +12,7 @@ import com.avseredyuk.carrental.web.util.ParametersVerifier;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.SessionWrapper;
+import org.apache.log4j.Logger;
 
 import java.util.Date;
 
@@ -29,6 +30,8 @@ import static com.avseredyuk.carrental.web.util.ConstantClass.*;
  *
  */
 public class FourthStepProcessor implements OrderStepProcessor {
+    private static final Logger logger = Logger.getLogger(FourthStepProcessor.class);
+
     @Override
     public String process(RequestWrapper req, ResponseWrapper resp) {
         SessionWrapper session = req.getSession();
@@ -44,6 +47,7 @@ public class FourthStepProcessor implements OrderStepProcessor {
             Integer sum = Integer.parseInt((String) session.getAttribute(ORDER_SUM));
             Order order = new Order(placeFrom, placeTo, automobile, user, dateFrom, dateTo, Order.OrderStatus.CREATED, sum);
             if (!ServiceFactoryImplementation.getInstance().getOrderService().persist(order)) {
+                logger.info("failed persisting order");
                 req.setAttribute(ERROR_STATUS, "makeorder.order.error.already.taken");
                 return ConfigurationManager.getProperty("path.page.error.makeorder");
             } else {

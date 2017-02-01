@@ -96,6 +96,7 @@ public final class ConstantClass {
     public static final String RETURN = "return";
     public static final String REQUEST_URI = "requestURI";
     public static final String ITEMS_PER_PAGE = "items_per_page";
+    public static final int MINIMUM_DIFF_HOURS = 3;
 
     private ConstantClass() {
     }

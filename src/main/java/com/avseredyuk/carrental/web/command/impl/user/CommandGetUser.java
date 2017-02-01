@@ -20,6 +20,7 @@ public class CommandGetUser implements Command {
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.ADMINISTRATOR, req.getSession())) {
+            logger.info("trying to access without permissions");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
         }
         String page = ConfigurationManager.getProperty("path.page.getuser");
@@ -27,13 +28,13 @@ public class CommandGetUser implements Command {
         try {
             int userId = Integer.parseInt(req.getParameter(ConstantClass.USER_ID));
             User user = ServiceFactoryImplementation.getInstance().getUserService().read(userId);
-            if(user == null) {
+            if (user == null) {
                 throw new CommandExecutionException();
             }
             req.setAttribute(ConstantClass.USER, user);
 
         } catch(NumberFormatException | CommandExecutionException e) {
-            logger.info("invalid data on get user: " + e);
+            logger.info("invalid data on get user", e);
             req.setAttribute(ConstantClass.ERROR_STATUS, "error.get.user");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_USERS).execute(req, resp);
         }

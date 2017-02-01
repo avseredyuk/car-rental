@@ -25,12 +25,13 @@ public class CommandShowProfile implements Command {
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.CLIENT, req.getSession())) {
+            logger.info("trying to access without permissions");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
         }
         try {
             User user = ServiceFactoryImplementation.getInstance().getUserService().getByLogin(
                     (String) req.getSession().getAttribute(ConstantClass.USERLOGIN));
-            if(user == null) {
+            if (user == null) {
                 throw new CommandExecutionException();
             }
 
@@ -46,7 +47,7 @@ public class CommandShowProfile implements Command {
             req.setAttribute(ConstantClass.PAGINATION_INFORMATION, pageInfo);
             req.setAttribute(ConstantClass.COMMAND, ConstantClass.COMMAND_SHOW_PROFILE.toLowerCase());
         } catch (CommandExecutionException e) {
-            logger.info("error on show profile: " + e);
+            logger.info("error on show profile", e);
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_NOT_FOUND).execute(req, resp);
         }
         return ConfigurationManager.getProperty("path.page.showprofile");

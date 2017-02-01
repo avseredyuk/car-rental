@@ -73,7 +73,7 @@ public class SecondStepProcessor implements OrderStepProcessor {
             }
             Calendar cal = Calendar.getInstance();
             cal.setTime(dateFrom);
-            cal.add(Calendar.HOUR_OF_DAY, 3);
+            cal.add(Calendar.HOUR_OF_DAY, MINIMUM_DIFF_HOURS);
             if (dateTo.before(cal.getTime())){
                 throw new CommandExecutionException();
             }
@@ -85,10 +85,10 @@ public class SecondStepProcessor implements OrderStepProcessor {
             req.setAttribute(AUTOMOBILES, automobiles);
 
         } catch (ParseException e) {
-            logger.error("parse error: " + e);
+            logger.info("parse error", e);
             return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req, resp);
         } catch (CommandExecutionException e) {
-            logger.error("invalid dates on making order: " + e);
+            logger.info("invalid data on making order", e);
             req.setAttribute(ERROR_STATUS, "makeorder.order.error.invalid.dates");
             return ConfigurationManager.getProperty("path.page.error.makeorder");
         }

@@ -24,6 +24,7 @@ public class CommandGetAutomobile implements Command {
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.ADMINISTRATOR, req.getSession())) {
+            logger.info("trying to access without permissions");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
         }
         String page = ConfigurationManager.getProperty("path.page.getautomobile");
@@ -38,7 +39,7 @@ public class CommandGetAutomobile implements Command {
             req.setAttribute(ConstantClass.PLACES, places);
 
         } catch(NumberFormatException | CommandExecutionException e) {
-            logger.info("invalid data on get automobile: " + e);
+            logger.info("invalid data on get automobile", e);
             req.setAttribute(ConstantClass.ERROR_STATUS, "error.get.automobile");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_AUTOMOBILES).execute(req, resp);
         }

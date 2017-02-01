@@ -22,6 +22,7 @@ public class CommandEditOrder implements Command {
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.ADMINISTRATOR, req.getSession())) {
+            logger.info("trying to access without permissions");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
         }
         try {
@@ -42,6 +43,7 @@ public class CommandEditOrder implements Command {
                         damageDescriptionString,
                         damagePaidString != null);
                 if (!ServiceFactoryImplementation.getInstance().getDamageService().update(damage)) {
+                    logger.info("invalid data on update damage");
                     req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
                     doReturnIfPossible(req, resp, true);
                     return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS).execute(req, resp);
@@ -51,6 +53,7 @@ public class CommandEditOrder implements Command {
                         damageDescriptionString,
                         damagePaidString != null);
                 if (!ServiceFactoryImplementation.getInstance().getDamageService().persist(damage)) {
+                    logger.info("invalid data on persist damage");
                     req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
                     doReturnIfPossible(req, resp, true);
                     return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS).execute(req, resp);
@@ -69,10 +72,11 @@ public class CommandEditOrder implements Command {
             User user = new User(userId);
             Order order = new Order(orderId, placeFrom, placeTo, automobile, user, damage, dateFrom, dateTo, orderStatus, sum);
             if (!ServiceFactoryImplementation.getInstance().getOrderService().update(order)) {
+                logger.info("invalid data on update order");
                 req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
             }
         } catch(NumberFormatException | ParseException e) {
-            logger.info(e);
+            logger.info("invalid data on edit order", e);
             req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
         }
         doReturnIfPossible(req, resp, true);

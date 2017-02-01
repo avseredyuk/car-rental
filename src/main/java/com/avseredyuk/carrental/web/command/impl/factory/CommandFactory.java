@@ -70,7 +70,7 @@ public class CommandFactory {
     public Command getCommand(RequestWrapper req) {
         String action = req.getParameter(ConstantClass.COMMAND);
         if (action == null) {
-            logger.info("incorrect command");
+            logger.info("empty command");
             return getByName(COMMAND_SHOW_INDEX);
         }
         Command command = getByName(action);

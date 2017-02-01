@@ -7,11 +7,13 @@ import com.avseredyuk.carrental.web.util.ConstantClass;
 import com.avseredyuk.carrental.web.util.ParametersVerifier;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
+import org.apache.log4j.Logger;
 
 /**
  * Created by lenfer on 1/11/17.
  */
 public class CommandLogin implements Command {
+    private static final Logger logger = Logger.getLogger(CommandLogin.class);
 
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
@@ -23,6 +25,7 @@ public class CommandLogin implements Command {
                 .getInstance()
                 .getAuthorizationService()
                 .login(login, password, req.getSession()))) {
+            logger.info(String.format("login failed with login %s", login));
             req.setAttribute(ConstantClass.ERROR_STATUS, "error.login");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_LOGIN).execute(req, resp);
         } else {

@@ -25,6 +25,7 @@ public class CommandGetOrder implements Command {
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.ADMINISTRATOR, req.getSession())) {
+            logger.info("trying to access without permissions");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
         }
         String page = ConfigurationManager.getProperty("path.page.getorder");
@@ -32,7 +33,7 @@ public class CommandGetOrder implements Command {
         try {
             int orderId = Integer.parseInt(req.getParameter(ConstantClass.ORDER_ID));
             Order order = ServiceFactoryImplementation.getInstance().getOrderService().read(orderId);
-            if(order == null) {
+            if (order == null) {
                 throw new CommandExecutionException();
             }
             req.setAttribute(ConstantClass.ORDER, order);
@@ -45,7 +46,7 @@ public class CommandGetOrder implements Command {
             req.setAttribute(ConstantClass.USERS, users);
 
         } catch(NumberFormatException | CommandExecutionException e) {
-            logger.info("invalid data on get order: " + e);
+            logger.info("invalid data on get order", e);
             req.setAttribute(ConstantClass.ERROR_STATUS, "error.get.order");
             return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS).execute(req, resp);
         }
