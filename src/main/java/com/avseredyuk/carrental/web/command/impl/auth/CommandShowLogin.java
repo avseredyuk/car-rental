@@ -9,7 +9,6 @@ import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
  * Created by lenfer on 1/11/17.
  */
 public class CommandShowLogin implements Command {
-
     @Override
     public String execute(RequestWrapper req, ResponseWrapper resp) {
         return ConfigurationManager.getProperty("path.page.showlogin");
