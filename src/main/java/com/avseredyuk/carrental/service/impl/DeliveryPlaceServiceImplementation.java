@@ -44,4 +44,9 @@ public class DeliveryPlaceServiceImplementation implements DeliveryPlaceService 
     public int getCount() {
         return MySqlDaoFactory.getInstance().getDeliveryPlaceDao().getCount();
     }
+
+    @Override
+    public List<DeliveryPlace> findAllOffices() {
+        return MySqlDaoFactory.getInstance().getDeliveryPlaceDao().findAllOffices();
+    }
 }

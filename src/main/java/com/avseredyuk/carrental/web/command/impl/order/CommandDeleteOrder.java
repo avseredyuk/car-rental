@@ -25,7 +25,7 @@ public class CommandDeleteOrder implements Command {
         try {
             int orderId = Integer.parseInt(req.getParameter(ConstantClass.ORDER_ID));
             Order order = new Order(orderId);
-            if (!ServiceFactoryImplementation.getInstance().getOrderService().delete(order)) {
+            if (!ServiceFactoryImplementation.getInstance().getOrderService().deleteCascadingDamage(order)) {
                 logger.info("failed to delete order");
                 req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.delete.order");
             }

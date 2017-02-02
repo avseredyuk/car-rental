@@ -3,6 +3,7 @@ package com.avseredyuk.carrental.service.impl;
 import com.avseredyuk.carrental.dao.impl.MySqlAutomobileDao;
 import com.avseredyuk.carrental.dao.impl.factory.MySqlDaoFactory;
 import com.avseredyuk.carrental.domain.Automobile;
+import com.avseredyuk.carrental.domain.Damage;
 import com.avseredyuk.carrental.domain.Order;
 import com.avseredyuk.carrental.domain.User;
 import com.avseredyuk.carrental.service.OrderService;
@@ -75,5 +76,16 @@ public class OrderServiceImplementation implements OrderService {
     @Override
     public int countAllByUser(User user) {
         return MySqlDaoFactory.getInstance().getOrderDao().countAllByUser(user);
+    }
+
+    @Override
+    public boolean deleteCascadingDamage(Order order) {
+        Order orderFromDB = MySqlDaoFactory.getInstance().getOrderDao().read(order.getId());
+        boolean result = delete(order);
+        Damage damage = orderFromDB.getDamage();
+        if ((damage != null) && (damage.getId() != null)) {
+            MySqlDaoFactory.getInstance().getDamageDao().delete(damage);
+        }
+        return result;
     }
 }

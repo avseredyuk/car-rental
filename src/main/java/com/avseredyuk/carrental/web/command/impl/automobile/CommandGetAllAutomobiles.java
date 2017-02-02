@@ -34,7 +34,7 @@ public class CommandGetAllAutomobiles implements Command {
         List<Automobile> automobiles = ServiceFactoryImplementation.getInstance().getAutomobileService()
                 .findAll(pageInfo.getStartIndex(), pageInfo.getItemsPerPage());
         req.setAttribute(ConstantClass.AUTOMOBILES, automobiles);
-        List<DeliveryPlace> places = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().findAll();
+        List<DeliveryPlace> places = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().findAllOffices();
         req.setAttribute(ConstantClass.PLACES, places);
         req.setAttribute(ConstantClass.PAGINATION_INFORMATION, pageInfo);
         req.setAttribute(ConstantClass.COMMAND, ConstantClass.COMMAND_GET_ALL_AUTOMOBILES.toLowerCase());

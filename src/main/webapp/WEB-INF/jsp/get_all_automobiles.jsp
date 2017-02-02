@@ -71,7 +71,7 @@
                                 <input type="number" name="yearOfProduction" class="inputform" value=""/><br/>
                                 <fmt:message key="automobiles.location" bundle="${bundle}"/>:<br/>
                                 <select name="places">
-                                    <c:forEach items="${requestScope.places}" var="place">
+                                    <c:forEach items="${places}" var="place">
                                         <option value="${place.id}">${fn:escapeXml(place.name)}</option>
                                     </c:forEach>
                                 </select><br/>

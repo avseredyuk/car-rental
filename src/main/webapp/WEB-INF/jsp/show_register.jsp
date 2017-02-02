@@ -27,7 +27,7 @@
                             <fmt:message key="login.surname" bundle="${bundle}"/>:<br/>
                             <input type="text" name="surname" class="inputform" value=""/><br/>
                             <fmt:message key="login.password" bundle="${bundle}"/>:<br/>
-                            <input type="text" name="password" class="inputform" value=""/><br/><br/>
+                            <input type="password" name="password" class="inputform" value=""/><br/><br/>
                             <input type="submit" value="<fmt:message key="login.register" bundle="${bundle}"/>"/>
                         </form>
                     </td>

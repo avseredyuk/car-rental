@@ -44,6 +44,11 @@ public class MySqlDeliveryPlaceDao implements DeliveryPlaceDao {
     }
 
     @Override
+    public List<DeliveryPlace> findAllOffices() {
+        return findAll("deliveryplace.findall.offices");
+    }
+
+    @Override
     public void prepareStatement(PreparedStatement statement, DeliveryPlace deliveryPlace, boolean isUpdate) throws SQLException {
         statement.setString(1, deliveryPlace.getName());
         statement.setString(2, deliveryPlace.getAddress());

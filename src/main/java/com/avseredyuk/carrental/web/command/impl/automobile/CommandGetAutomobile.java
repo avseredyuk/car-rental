@@ -34,7 +34,7 @@ public class CommandGetAutomobile implements Command {
                 throw new CommandExecutionException();
             }
             req.setAttribute(ConstantClass.AUTOMOBILE, automobile);
-            List<DeliveryPlace> places = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().findAll();
+            List<DeliveryPlace> places = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().findAllOffices();
             req.setAttribute(ConstantClass.PLACES, places);
 
         } catch(NumberFormatException | CommandExecutionException e) {

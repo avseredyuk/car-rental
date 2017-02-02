@@ -12,4 +12,5 @@ public interface OrderService extends CrudService<Order> {
     List<Order> findAllLastRange(int startIndex, int size);
     List<Order> findAllByUserSortedByDateRange(User user, int startIndex, int size);
     int countAllByUser(User user);
+    boolean deleteCascadingDamage(Order order);
 }
