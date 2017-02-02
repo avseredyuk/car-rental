@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS lab3;
 
 CREATE DATABASE lab3 DEFAULT CHARACTER SET utf8
-  DEFAULT COLLATE utf8_general_ci;
+	DEFAULT COLLATE utf8_general_ci;
 
 USE lab3;
 
@@ -11,7 +11,7 @@ CREATE TABLE `delivery_places` (
 	`address` TEXT NOT NULL,
 	`place_type` TEXT NOT NULL,
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `automobiles` (
 	`id` INT NOT NULL AUTO_INCREMENT,

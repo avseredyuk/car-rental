@@ -11,7 +11,7 @@ CREATE TABLE `delivery_places` (
 	`address` TEXT NOT NULL,
 	`place_type` TEXT NOT NULL,
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `automobiles` (
 	`id` INT NOT NULL AUTO_INCREMENT,

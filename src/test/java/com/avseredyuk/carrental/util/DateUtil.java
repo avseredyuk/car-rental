@@ -22,6 +22,6 @@ public class DateUtil {
         c.add(Calendar.HOUR, r.nextInt(100));
         c.add(Calendar.MINUTE, r.nextInt(100));
         c.add(Calendar.YEAR, r.nextInt(2));
-        return c.getTime();
+        return new Date(c.getTime().getTime() / 1000 * 1000);
     }
 }

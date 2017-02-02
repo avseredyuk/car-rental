@@ -1,5 +1,6 @@
 package com.avseredyuk.carrental.service.impl;
 
+import com.avseredyuk.carrental.dao.impl.MySqlAutomobileDao;
 import com.avseredyuk.carrental.dao.impl.factory.MySqlDaoFactory;
 import com.avseredyuk.carrental.domain.Automobile;
 import com.avseredyuk.carrental.domain.Order;
@@ -42,8 +43,8 @@ public class OrderServiceImplementation implements OrderService {
     }
 
     @Override
-    public boolean delete(Order object) {
-        return MySqlDaoFactory.getInstance().getOrderDao().delete(object);
+    public boolean delete(Order order) {
+        return MySqlDaoFactory.getInstance().getOrderDao().delete(order);
     }
 
     @Override

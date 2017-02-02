@@ -11,8 +11,6 @@ import com.avseredyuk.carrental.web.util.ParamsValidatorUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
 import org.apache.log4j.Logger;
 
-import java.text.ParseException;
-
 /**
  * Created by lenfer on 1/19/17.
  */

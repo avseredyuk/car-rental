@@ -25,6 +25,9 @@ public class CommandMakeOrder implements Command {
     public CommandResult execute(RequestWrapper req) {
         String step = req.getParameter(ConstantClass.ORDERSTEP);
         try {
+            if (step == null) {
+                throw new IllegalArgumentException();
+            }
             return OrderSteps.valueOf(step.toUpperCase()).getProcessor().process(req);
         } catch (IllegalArgumentException e) {
             logger.error("error parsing steps at making order" + e);
