@@ -34,21 +34,4 @@ public interface Command {
         }
         return forwardCommand.execute(req);
     }
-/*
-    default void doReturnIfPossible(RequestWrapper req, ResponseWrapper resp, boolean uriEncoded) {
-        String returnPath = req.getParameter(ConstantClass.RETURN);
-        if ((returnPath != null) && (!"".equals(returnPath))) {
-            try {
-                if (uriEncoded) {
-                    resp.sendRedirect(URLDecoder.decode(returnPath, "UTF-8"));
-                } else {
-                    resp.sendRedirect(returnPath);
-                }
-                throw new CommandRedirectException();
-            } catch (IOException e) {
-                Logger.getLogger(Command.class).error("exception on redirect: " + e);
-            }
-        }
-    }
-    */
 }

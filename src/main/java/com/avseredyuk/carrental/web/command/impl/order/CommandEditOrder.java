@@ -34,15 +34,15 @@ public class CommandEditOrder implements Command {
             Damage damage = null;
             String damageIdString = req.getParameter(ConstantClass.DAMAGE_ID);
             String damageSumString = req.getParameter(ConstantClass.DAMAGE_SUM);
-            int damageSum = Integer.parseInt(damageSumString);
-            if (!ParamsValidatorUtil.checkAllNonNegative(damageSum)) {
-                throw new NumberFormatException();
-            }
             String damageDescriptionString = req.getParameter(ConstantClass.DAMAGE_DESCRIPTION);
             String damagePaidString = req.getParameter(ConstantClass.DAMAGE_PAID);
             if (!"".equals(damageIdString)) {
+                int damageSum = Integer.parseInt(damageSumString);
+                if (!ParamsValidatorUtil.checkAllNonNegative(damageSum)) {
+                    throw new NumberFormatException();
+                }
                 damage = new Damage(Integer.parseInt(damageIdString),
-                        Integer.parseInt(damageSumString),
+                        damageSum,
                         damageDescriptionString,
                         damagePaidString != null);
                 if (!ServiceFactoryImplementation.getInstance().getDamageService().update(damage)) {
@@ -52,7 +52,11 @@ public class CommandEditOrder implements Command {
                             CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS));
                 }
             } else if (!"".equals(damageSumString) && !"".equals(damageDescriptionString)) {
-                damage = new Damage(Integer.parseInt(damageSumString),
+                int damageSum = Integer.parseInt(damageSumString);
+                if (!ParamsValidatorUtil.checkAllNonNegative(damageSum)) {
+                    throw new NumberFormatException();
+                }
+                damage = new Damage(damageSum,
                         damageDescriptionString,
                         damagePaidString != null);
                 if (!ServiceFactoryImplementation.getInstance().getDamageService().persist(damage)) {
