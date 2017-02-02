@@ -3,8 +3,8 @@ package com.avseredyuk.carrental.web.util;
 /**
  * Created by lenfer on 1/30/17.
  */
-public class ParametersVerifier {
-    private ParametersVerifier() {
+public class ParamsValidatorUtil {
+    private ParamsValidatorUtil() {
         // do nothing
     }
 
@@ -23,6 +23,17 @@ public class ParametersVerifier {
         boolean result = true;
         for (int i = 0; i < params.length; i++) {
             if (params[i] == null) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static boolean checkAllNonNegative(int... params) {
+        boolean result = true;
+        for (int i = 0; i < params.length; i++) {
+            if (params[i] < 0) {
                 result = false;
                 break;
             }

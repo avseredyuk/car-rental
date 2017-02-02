@@ -7,7 +7,6 @@ import com.avseredyuk.carrental.util.RandomUtil;
 import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.SessionWrapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,6 @@ import static org.mockito.Mockito.*;
  */
 public class CommandRegisterTest extends Utils {
     RequestWrapper req = mock(RequestWrapper.class);
-    ResponseWrapper resp = mock(ResponseWrapper.class);
     SessionWrapper session = mock(SessionWrapper.class);
     Command command = CommandFactory.getInstance().getByName(COMMAND_REGISTER);
 
@@ -37,7 +35,7 @@ public class CommandRegisterTest extends Utils {
         when(req.getParameter(USERPASSWORD)).thenReturn("");
         when(req.getParameter(USERNAME)).thenReturn("");
         when(req.getParameter(USERSURNAME)).thenReturn("");
-        command.execute(req, resp);
+        command.execute(req);
         verify(req).setAttribute(ERROR_STATUS, "error.registration.empty");
     }
 
@@ -50,7 +48,7 @@ public class CommandRegisterTest extends Utils {
         when(req.getParameter(USERPASSWORD)).thenReturn(user.getPassword());
         when(req.getParameter(USERNAME)).thenReturn(user.getName());
         when(req.getParameter(USERSURNAME)).thenReturn(user.getSurname());
-        command.execute(req, resp);
+        command.execute(req);
         verify(req).setAttribute(ERROR_STATUS, "error.registration.persist");
     }
 
@@ -63,7 +61,7 @@ public class CommandRegisterTest extends Utils {
         when(req.getParameter(USERNAME)).thenReturn(user.getName());
         when(req.getParameter(USERSURNAME)).thenReturn(user.getSurname());
         when(req.getSession()).thenReturn(session);
-        command.execute(req, resp);
+        command.execute(req);
 
         verify(req, atLeast(1)).getSession();
         verify(session).setAttribute(USERROLE, User.Role.CLIENT.toString());

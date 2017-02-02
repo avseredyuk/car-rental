@@ -4,11 +4,11 @@ import com.avseredyuk.carrental.domain.Automobile;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.command.impl.order.strategy.OrderStepProcessor;
+import com.avseredyuk.carrental.web.command.result.CommandResult;
 import com.avseredyuk.carrental.web.exception.CommandExecutionException;
 import com.avseredyuk.carrental.web.util.ConfigurationManager;
 import com.avseredyuk.carrental.web.util.InvoiceUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.SessionWrapper;
 import org.apache.log4j.Logger;
 
@@ -30,7 +30,7 @@ public class ThirdStepProcessor implements OrderStepProcessor {
     private static final Logger logger = Logger.getLogger(ThirdStepProcessor.class);
 
     @Override
-    public String process(RequestWrapper req, ResponseWrapper resp) {
+    public CommandResult process(RequestWrapper req) {
         SessionWrapper session = req.getSession();
         String login = (String) session.getAttribute(USERLOGIN);
         try {
@@ -46,7 +46,7 @@ public class ThirdStepProcessor implements OrderStepProcessor {
                 automobile = (Automobile) session.getAttribute(AUTOMOBILE);
             } else {
                 logger.info("automobile not found on step3");
-                return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req, resp);
+                return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req);
             }
             session.setAttribute(ORDER_SUM, InvoiceUtil.calculateSum(automobile,
                     (Date) session.getAttribute(DATE_FROM),
@@ -54,9 +54,12 @@ public class ThirdStepProcessor implements OrderStepProcessor {
 
         } catch (CommandExecutionException e) {
             logger.info("automobile read error", e);
-            return ConfigurationManager.getProperty("path.page.error.makeorder");
+            return new CommandResult(ConfigurationManager.getProperty("path.page.error.makeorder"),
+                    CommandResult.ActionType.FORWARD);
         }
-        return login == null ? ConfigurationManager.getProperty("path.page.makeorder.3") :
-                ConfigurationManager.getProperty("path.page.makeorder.4");
+        return login == null ? new CommandResult(ConfigurationManager.getProperty("path.page.makeorder.3"),
+                CommandResult.ActionType.FORWARD) :
+                new CommandResult(ConfigurationManager.getProperty("path.page.makeorder.4"),
+                CommandResult.ActionType.FORWARD);
     }
 }

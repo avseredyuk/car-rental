@@ -5,11 +5,11 @@ import com.avseredyuk.carrental.domain.DeliveryPlace;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.command.impl.order.strategy.OrderStepProcessor;
+import com.avseredyuk.carrental.web.command.result.CommandResult;
 import com.avseredyuk.carrental.web.exception.CommandExecutionException;
 import com.avseredyuk.carrental.web.util.ConfigurationManager;
-import com.avseredyuk.carrental.web.util.ParametersVerifier;
+import com.avseredyuk.carrental.web.util.ParamsValidatorUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.SessionWrapper;
 import org.apache.log4j.Logger;
 
@@ -36,7 +36,7 @@ public class SecondStepProcessor implements OrderStepProcessor {
     private static final Logger logger = Logger.getLogger(SecondStepProcessor.class);
 
     @Override
-    public String process(RequestWrapper req, ResponseWrapper resp) {
+    public CommandResult process(RequestWrapper req) {
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date dateFrom;
         Date dateTo;
@@ -44,7 +44,7 @@ public class SecondStepProcessor implements OrderStepProcessor {
         DeliveryPlace placeTo;
         SessionWrapper session = req.getSession();
         try {
-            if (ParametersVerifier.checkAllNotNull(req.getParameter(DATE_FROM), req.getParameter(DATE_TO),
+            if (ParamsValidatorUtil.checkAllNotNull(req.getParameter(DATE_FROM), req.getParameter(DATE_TO),
                     req.getParameter(PLACE_FROM), req.getParameter(PLACE_TO))) {
                 dateFrom = f.parse(req.getParameter(DATE_FROM));
                 dateTo = f.parse(req.getParameter(DATE_TO));
@@ -53,19 +53,19 @@ public class SecondStepProcessor implements OrderStepProcessor {
                 Integer placeToId = Integer.parseInt(req.getParameter(PLACE_TO));
                 placeFrom = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().read(placeFromId);
                 placeTo = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().read(placeToId);
-                if (!ParametersVerifier.checkAllNotNull(placeFrom, placeTo)) {
+                if (!ParamsValidatorUtil.checkAllNotNull(placeFrom, placeTo)) {
                     throw new CommandExecutionException();
                 }
                 session.setAttribute(DATE_FROM, dateFrom);
                 session.setAttribute(DATE_TO, dateTo);
                 session.setAttribute(PLACE_FROM, placeFrom);
                 session.setAttribute(PLACE_TO, placeTo);
-            } else if (ParametersVerifier.checkAllNotNull(session.getAttribute(DATE_FROM), session.getAttribute(DATE_TO),
+            } else if (ParamsValidatorUtil.checkAllNotNull(session.getAttribute(DATE_FROM), session.getAttribute(DATE_TO),
                     session.getAttribute(PLACE_FROM), session.getAttribute(PLACE_TO))) {
                 dateFrom = (Date) session.getAttribute(DATE_FROM);
                 dateTo = (Date) session.getAttribute(DATE_TO);
             } else {
-                return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req, resp);
+                return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req);
             }
 
             if (!dateFrom.before(dateTo)) {
@@ -86,13 +86,14 @@ public class SecondStepProcessor implements OrderStepProcessor {
 
         } catch (ParseException e) {
             logger.info("parse error", e);
-            return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req, resp);
+            return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req);
         } catch (CommandExecutionException e) {
             logger.info("invalid data on making order", e);
             req.setAttribute(ERROR_STATUS, "makeorder.order.error.invalid.dates");
-            return ConfigurationManager.getProperty("path.page.error.makeorder");
+            return new CommandResult(ConfigurationManager.getProperty("path.page.error.makeorder"),
+                    CommandResult.ActionType.FORWARD);
         }
-
-        return ConfigurationManager.getProperty("path.page.makeorder.2");
+        return new CommandResult(ConfigurationManager.getProperty("path.page.makeorder.2"),
+                CommandResult.ActionType.FORWARD);
     }
 }

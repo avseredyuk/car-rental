@@ -3,9 +3,9 @@ package com.avseredyuk.carrental.web.command.impl.order.strategy.impl;
 import com.avseredyuk.carrental.domain.DeliveryPlace;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.impl.order.strategy.OrderStepProcessor;
+import com.avseredyuk.carrental.web.command.result.CommandResult;
 import com.avseredyuk.carrental.web.util.ConfigurationManager;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 
 import java.util.Date;
 import java.util.List;
@@ -21,10 +21,11 @@ import static com.avseredyuk.carrental.web.util.ConstantClass.*;
  */
 public class FirstStepProcessor implements OrderStepProcessor {
     @Override
-    public String process(RequestWrapper req, ResponseWrapper resp) {
+    public CommandResult process(RequestWrapper req) {
         List<DeliveryPlace> places = ServiceFactoryImplementation.getInstance().getDeliveryPlaceService().findAll();
         req.setAttribute(PLACES, places);
         req.setAttribute(DATE_NOW, new Date());
-        return ConfigurationManager.getProperty("path.page.makeorder.1");
+        return new CommandResult(ConfigurationManager.getProperty("path.page.makeorder.1"),
+                CommandResult.ActionType.FORWARD);
     }
 }

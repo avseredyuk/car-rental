@@ -8,7 +8,6 @@ import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.util.ConstantClass;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.SessionWrapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +25,6 @@ public class CommandUpdateProfileTest extends Utils {
     public static final String USER_SURNAME_2 = "afsgdhfjg";
     public static final String USER_EMAIL_2 = "asgdhfjgh";
     RequestWrapper req = mock(RequestWrapper.class);
-    ResponseWrapper resp = mock(ResponseWrapper.class);
     SessionWrapper session = mock(SessionWrapper.class);
     Command command = CommandFactory.getInstance().getByName(COMMAND_UPDATE_PROFILE);
 
@@ -38,8 +36,8 @@ public class CommandUpdateProfileTest extends Utils {
     @Test
     public void executeByGuest() throws Exception {
         when(req.getSession()).thenReturn(session);
-        assertEquals(CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp),
-                command.execute(req, resp));
+        assertEquals(CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req),
+                command.execute(req));
     }
 
     @Test
@@ -50,7 +48,7 @@ public class CommandUpdateProfileTest extends Utils {
         when(req.getParameter(USERNAME)).thenReturn("");
         when(req.getParameter(USERSURNAME)).thenReturn("");
         when(req.getParameter(USEREMAIL)).thenReturn("");
-        command.execute(req, resp);
+        command.execute(req);
         verify(req).setAttribute(ERROR_STATUS, "error.update.profile");
     }
 
@@ -63,7 +61,7 @@ public class CommandUpdateProfileTest extends Utils {
         when(req.getParameter(USERNAME)).thenReturn(user.getName());
         when(req.getParameter(USERSURNAME)).thenReturn(user.getSurname());
         when(req.getParameter(USEREMAIL)).thenReturn(user.getEmail());
-        command.execute(req, resp);
+        command.execute(req);
         verify(req).setAttribute(ERROR_STATUS, "error.update.profile");
     }
 
@@ -78,7 +76,7 @@ public class CommandUpdateProfileTest extends Utils {
         when(req.getParameter(USERSURNAME)).thenReturn(USER_SURNAME_2);
         when(req.getParameter(USEREMAIL)).thenReturn(USER_EMAIL_2);
         when(req.getParameter(USERPASSWORD)).thenReturn("");
-        command.execute(req, resp);
+        command.execute(req);
         verify(req).setAttribute(ERROR_STATUS, "success.update.profile");
     }
 

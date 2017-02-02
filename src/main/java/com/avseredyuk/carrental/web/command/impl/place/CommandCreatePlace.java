@@ -5,9 +5,9 @@ import com.avseredyuk.carrental.domain.User;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
+import com.avseredyuk.carrental.web.command.result.CommandResult;
 import com.avseredyuk.carrental.web.util.ConstantClass;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import org.apache.log4j.Logger;
 
 /**
@@ -17,10 +17,10 @@ public class CommandCreatePlace implements Command {
     private static final Logger logger = Logger.getLogger(CommandCreatePlace.class);
 
     @Override
-    public String execute(RequestWrapper req, ResponseWrapper resp) {
+    public CommandResult execute(RequestWrapper req) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.ADMINISTRATOR, req.getSession())) {
             logger.info("trying to access without permissions");
-            return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
+            return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req);
         }
         try {
             String name = req.getParameter(ConstantClass.PLACENAME);
@@ -36,7 +36,7 @@ public class CommandCreatePlace implements Command {
             logger.info("invalid data on create place", e);
             req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.create.place");
         }
-        doReturnIfPossible(req, resp, true);
-        return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_PLACES).execute(req, resp);
+        return commandResultSelector(req, true,
+                CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_PLACES));
     }
 }

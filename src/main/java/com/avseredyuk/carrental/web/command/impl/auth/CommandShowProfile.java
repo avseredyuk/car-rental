@@ -5,13 +5,13 @@ import com.avseredyuk.carrental.domain.User;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
+import com.avseredyuk.carrental.web.command.result.CommandResult;
 import com.avseredyuk.carrental.web.exception.CommandExecutionException;
 import com.avseredyuk.carrental.web.util.ConfigurationManager;
 import com.avseredyuk.carrental.web.util.ConstantClass;
 import com.avseredyuk.carrental.web.util.PaginationInformation;
 import com.avseredyuk.carrental.web.util.PaginationUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -23,10 +23,10 @@ public class CommandShowProfile implements Command {
     private static final Logger logger = Logger.getLogger(CommandShowProfile.class);
 
     @Override
-    public String execute(RequestWrapper req, ResponseWrapper resp) {
+    public CommandResult execute(RequestWrapper req) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.CLIENT, req.getSession())) {
             logger.info("trying to access without permissions");
-            return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
+            return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req);
         }
         try {
             User user = ServiceFactoryImplementation.getInstance().getUserService().getByLogin(
@@ -48,8 +48,9 @@ public class CommandShowProfile implements Command {
             req.setAttribute(ConstantClass.COMMAND, ConstantClass.COMMAND_SHOW_PROFILE.toLowerCase());
         } catch (CommandExecutionException e) {
             logger.info("error on show profile", e);
-            return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_NOT_FOUND).execute(req, resp);
+            return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_NOT_FOUND).execute(req);
         }
-        return ConfigurationManager.getProperty("path.page.showprofile");
+        return new CommandResult(ConfigurationManager.getProperty("path.page.showprofile"),
+                CommandResult.ActionType.FORWARD);
     }
 }

@@ -47,22 +47,23 @@ public class MySqlAutomobileDao implements AutomobileDao {
 
     @Override
     public List<Automobile> getFreeAutomobilesInDateRange(java.util.Date dateFrom, java.util.Date dateTo) {
-        String query1 = PropertiesUtil.getProperty("automobile.findallfreebetweendates1", PropertiesUtil.Source.QUERIES);
-        String query2 = PropertiesUtil.getProperty("automobile.findallfreebetweendates2", PropertiesUtil.Source.QUERIES);
-        String query3 = PropertiesUtil.getProperty("automobile.findallfreebetweendates3", PropertiesUtil.Source.QUERIES);
+        String query = PropertiesUtil.getProperty("automobile.findallfreebetweendates", PropertiesUtil.Source.QUERIES);
         List<Automobile> result = new ArrayList<>();
         try (Connection connection = PoolWorker.getInstance().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query1)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setTimestamp(1, new Timestamp(dateFrom.getTime()));
-                statement.execute();
-            }
-            try (PreparedStatement statement = connection.prepareStatement(query2)) {
-                statement.setTimestamp(1, new Timestamp(dateTo.getTime()));
-                statement.execute();
-            }
-            try (PreparedStatement statement = connection.prepareStatement(query3);
-                 ResultSet resultSet = statement.executeQuery()) {
-                result = parseResultSet(resultSet);
+                statement.setTimestamp(2, new Timestamp(dateFrom.getTime()));
+                statement.setTimestamp(4, new Timestamp(dateFrom.getTime()));
+                statement.setTimestamp(6, new Timestamp(dateFrom.getTime()));
+                statement.setTimestamp(9, new Timestamp(dateFrom.getTime()));
+                statement.setTimestamp(3, new Timestamp(dateTo.getTime()));
+                statement.setTimestamp(5, new Timestamp(dateTo.getTime()));
+                statement.setTimestamp(7, new Timestamp(dateTo.getTime()));
+                statement.setTimestamp(8, new Timestamp(dateTo.getTime()));
+                statement.setTimestamp(10, new Timestamp(dateTo.getTime()));
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    result = parseResultSet(resultSet);
+                }
             }
         } catch (SQLException | DaoException e) {
             logger.error(String.format("Error retrieving automobiles in date range [%s:%s]", dateFrom, dateTo), e);

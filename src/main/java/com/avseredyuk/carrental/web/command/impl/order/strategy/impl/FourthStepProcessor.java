@@ -7,10 +7,10 @@ import com.avseredyuk.carrental.domain.User;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.command.impl.order.strategy.OrderStepProcessor;
+import com.avseredyuk.carrental.web.command.result.CommandResult;
 import com.avseredyuk.carrental.web.util.ConfigurationManager;
-import com.avseredyuk.carrental.web.util.ParametersVerifier;
+import com.avseredyuk.carrental.web.util.ParamsValidatorUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.SessionWrapper;
 import org.apache.log4j.Logger;
 
@@ -33,9 +33,9 @@ public class FourthStepProcessor implements OrderStepProcessor {
     private static final Logger logger = Logger.getLogger(FourthStepProcessor.class);
 
     @Override
-    public String process(RequestWrapper req, ResponseWrapper resp) {
+    public CommandResult process(RequestWrapper req) {
         SessionWrapper session = req.getSession();
-        if (ParametersVerifier.checkAllNotNull(session.getAttribute(PLACE_FROM), session.getAttribute(PLACE_TO),
+        if (ParamsValidatorUtil.checkAllNotNull(session.getAttribute(PLACE_FROM), session.getAttribute(PLACE_TO),
                 session.getAttribute(AUTOMOBILE), session.getAttribute(USERLOGIN), session.getAttribute(DATE_FROM),
                 session.getAttribute(DATE_TO), session.getAttribute(ORDER_SUM))) {
             DeliveryPlace placeFrom = (DeliveryPlace) session.getAttribute(PLACE_FROM);
@@ -49,7 +49,8 @@ public class FourthStepProcessor implements OrderStepProcessor {
             if (!ServiceFactoryImplementation.getInstance().getOrderService().persist(order)) {
                 logger.info("failed persisting order");
                 req.setAttribute(ERROR_STATUS, "makeorder.order.error.already.taken");
-                return ConfigurationManager.getProperty("path.page.error.makeorder");
+                return new CommandResult(ConfigurationManager.getProperty("path.page.error.makeorder"),
+                        CommandResult.ActionType.FORWARD);
             } else {
                 session.removeAttribute(PLACE_FROM);
                 session.removeAttribute(PLACE_TO);
@@ -57,9 +58,10 @@ public class FourthStepProcessor implements OrderStepProcessor {
                 session.removeAttribute(DATE_TO);
                 session.removeAttribute(AUTOMOBILE);
                 session.removeAttribute(ORDER_SUM);
-                return ConfigurationManager.getProperty("path.page.makeorder.5");
+                return new CommandResult(ConfigurationManager.getProperty("path.page.makeorder.5"),
+                        CommandResult.ActionType.FORWARD);
             }
         }
-        return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req, resp);
+        return CommandFactory.getInstance().getByName(COMMAND_SHOW_NOT_FOUND).execute(req);
     }
 }

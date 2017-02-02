@@ -3,9 +3,9 @@ package com.avseredyuk.carrental.web.command.impl;
 import com.avseredyuk.carrental.domain.*;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.Command;
+import com.avseredyuk.carrental.web.command.result.CommandResult;
 import com.avseredyuk.carrental.web.util.*;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import static com.avseredyuk.carrental.web.util.ConstantClass.*;
  */
 public class CommandShowIndex implements Command {
     @Override
-    public String execute(RequestWrapper req, ResponseWrapper resp) {
+    public CommandResult execute(RequestWrapper req) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.ADMINISTRATOR, req.getSession())) {
             PaginationInformation pageInfo = PaginationUtil.getPaginationInformation(req,
                     ServiceFactoryImplementation.getInstance().getAutomobileService().getCount());
@@ -27,7 +27,8 @@ public class CommandShowIndex implements Command {
             req.setAttribute(PAGINATION_INFORMATION, pageInfo);
             req.setAttribute(COMMAND, ConstantClass.COMMAND_SHOW_INDEX.toLowerCase());
 
-            return ConfigurationManager.getProperty("path.page.index");
+            return new CommandResult(ConfigurationManager.getProperty("path.page.index"),
+                    CommandResult.ActionType.FORWARD);
         } else {
             List<User> users = ServiceFactoryImplementation.getInstance().getUserService()
                     .findAllLastRange(0, 5);
@@ -35,7 +36,8 @@ public class CommandShowIndex implements Command {
             List<Order> orders = ServiceFactoryImplementation.getInstance().getOrderService()
                     .findAllLastRange(0, 5);
             req.setAttribute(ConstantClass.ORDERS, orders);
-            return ConfigurationManager.getProperty("path.page.adminindex");
+            return new CommandResult(ConfigurationManager.getProperty("path.page.adminindex"),
+                    CommandResult.ActionType.FORWARD);
         }
     }
 }

@@ -6,7 +6,6 @@ import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
 import com.avseredyuk.carrental.web.util.ConstantClass;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.SessionWrapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,6 @@ import static org.mockito.Mockito.when;
  */
 public class CommandGetAllUsersTest extends Utils {
     RequestWrapper req = mock(RequestWrapper.class);
-    ResponseWrapper resp = mock(ResponseWrapper.class);
     SessionWrapper session = mock(SessionWrapper.class);
     Command command = CommandFactory.getInstance().getByName(COMMAND_GET_ALL_USERS);
 
@@ -33,15 +31,15 @@ public class CommandGetAllUsersTest extends Utils {
     @Test
     public void executeByGuest() throws Exception {
         when(req.getSession()).thenReturn(session);
-        assertEquals(CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp),
-                command.execute(req, resp));
+        assertEquals(CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req),
+                command.execute(req));
     }
 
     @Test
     public void executeByClient() throws Exception {
         when(req.getSession()).thenReturn(session);
         when(session.getAttribute(ConstantClass.USERROLE)).thenReturn(User.Role.CLIENT.name());
-        assertEquals(CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp),
-                command.execute(req, resp));
+        assertEquals(CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req),
+                command.execute(req));
     }
 }

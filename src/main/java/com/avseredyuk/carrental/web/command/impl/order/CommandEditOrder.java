@@ -4,11 +4,14 @@ import com.avseredyuk.carrental.domain.*;
 import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementation;
 import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
+import com.avseredyuk.carrental.web.command.result.CommandResult;
 import com.avseredyuk.carrental.web.exception.CommandExecutionException;
 import com.avseredyuk.carrental.web.util.ConstantClass;
+import com.avseredyuk.carrental.web.util.ParamsValidatorUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
-import com.avseredyuk.carrental.web.util.wrapper.ResponseWrapper;
 import org.apache.log4j.Logger;
+
+import java.text.ParseException;
 
 /**
  * Created by lenfer on 1/19/17.
@@ -17,10 +20,10 @@ public class CommandEditOrder implements Command {
     private static final Logger logger = Logger.getLogger(CommandEditOrder.class);
 
     @Override
-    public String execute(RequestWrapper req, ResponseWrapper resp) {
+    public CommandResult execute(RequestWrapper req) {
         if (!ServiceFactoryImplementation.getInstance().getAuthorizationService().checkRole(User.Role.ADMINISTRATOR, req.getSession())) {
             logger.info("trying to access without permissions");
-            return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req, resp);
+            return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_SHOW_FORBIDDEN).execute(req);
         }
         try {
             int orderId = Integer.parseInt(req.getParameter(ConstantClass.ORDER_ID));
@@ -31,6 +34,10 @@ public class CommandEditOrder implements Command {
             Damage damage = null;
             String damageIdString = req.getParameter(ConstantClass.DAMAGE_ID);
             String damageSumString = req.getParameter(ConstantClass.DAMAGE_SUM);
+            int damageSum = Integer.parseInt(damageSumString);
+            if (!ParamsValidatorUtil.checkAllNonNegative(damageSum)) {
+                throw new NumberFormatException();
+            }
             String damageDescriptionString = req.getParameter(ConstantClass.DAMAGE_DESCRIPTION);
             String damagePaidString = req.getParameter(ConstantClass.DAMAGE_PAID);
             if (!"".equals(damageIdString)) {
@@ -41,8 +48,8 @@ public class CommandEditOrder implements Command {
                 if (!ServiceFactoryImplementation.getInstance().getDamageService().update(damage)) {
                     logger.info("invalid data on update damage");
                     req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
-                    doReturnIfPossible(req, resp, true);
-                    return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS).execute(req, resp);
+                    return commandResultSelector(req, true,
+                            CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS));
                 }
             } else if (!"".equals(damageSumString) && !"".equals(damageDescriptionString)) {
                 damage = new Damage(Integer.parseInt(damageSumString),
@@ -51,8 +58,8 @@ public class CommandEditOrder implements Command {
                 if (!ServiceFactoryImplementation.getInstance().getDamageService().persist(damage)) {
                     logger.info("invalid data on persist damage");
                     req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
-                    doReturnIfPossible(req, resp, true);
-                    return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS).execute(req, resp);
+                    return commandResultSelector(req, true,
+                            CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS));
                 }
             }
 
@@ -74,7 +81,7 @@ public class CommandEditOrder implements Command {
             logger.info("invalid data on edit order", e);
             req.getSession().setAttribute(ConstantClass.ERROR_STATUS, "error.edit.order");
         }
-        doReturnIfPossible(req, resp, true);
-        return CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS).execute(req, resp);
+        return commandResultSelector(req, true,
+                CommandFactory.getInstance().getByName(ConstantClass.COMMAND_GET_ALL_ORDERS));
     }
 }
