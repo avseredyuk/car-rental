@@ -17,6 +17,13 @@ import java.util.List;
 public class OrderServiceImplementation implements OrderService {
     private static final Logger logger = Logger.getLogger(OrderServiceImplementation.class);
 
+    /**
+     * Persists the Order object do database only if the selected Automobile is non-used
+     * in the selected range of dates.
+     * @param order Order to persist
+     *
+     * @return <tt>true</tt> if all of the Orders are non-interfering
+     */
     @Override
     public synchronized boolean persist(Order order) {
         if (MySqlDaoFactory.getInstance()
@@ -78,6 +85,11 @@ public class OrderServiceImplementation implements OrderService {
         return MySqlDaoFactory.getInstance().getOrderDao().countAllByUser(user);
     }
 
+    /**
+     * Deletes Order and Damage that connected to the Order (if there is one)
+     * @param order Order to delete from database
+     * @return <tt>true</tt> if delete operation is successful
+     */
     @Override
     public boolean deleteCascadingDamage(Order order) {
         Order orderFromDB = MySqlDaoFactory.getInstance().getOrderDao().read(order.getId());

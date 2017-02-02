@@ -45,6 +45,12 @@ public class MySqlAutomobileDao implements AutomobileDao {
         return getCount("automobile.getcount");
     }
 
+    /**
+     * Fetching automobiles that are non-used in any Orders in the selected range of the dates.
+     * @param dateFrom starting date
+     * @param dateTo ending date
+     * @return list of Automobiles
+     */
     @Override
     public List<Automobile> getFreeAutomobilesInDateRange(java.util.Date dateFrom, java.util.Date dateTo) {
         String query = PropertiesUtil.getProperty("automobile.findallfreebetweendates", PropertiesUtil.Source.QUERIES);

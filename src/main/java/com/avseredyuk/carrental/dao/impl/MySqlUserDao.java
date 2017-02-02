@@ -45,6 +45,11 @@ public class MySqlUserDao implements UserDao {
         return getCount("user.getcount");
     }
 
+    /**
+     * Fetch User by login
+     * @param login login of the User
+     * @return <tt>User</tt> if there is such User or null if there are no users in database with such login
+     */
     @Override
     public User getByLogin(String login) {
         User result = null;

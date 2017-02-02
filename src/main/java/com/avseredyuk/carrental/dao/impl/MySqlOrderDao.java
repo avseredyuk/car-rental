@@ -51,6 +51,13 @@ public class MySqlOrderDao implements OrderDao {
         return findAll(startIndex, size, "order.find.all.last.range");
     }
 
+    /**
+     * Fetch all Orders made by User sorted by date of creation and limited in range.
+     * @param user User which orders to fetch
+     * @param startIndex starting index
+     * @param size count of orders to fetch
+     * @return list of Orders
+     */
     @Override
     public List<Order> findAllByUserSortedByDateRange(User user, int startIndex, int size) {
         String query = PropertiesUtil.getProperty("order.find.all.by.user.range", PropertiesUtil.Source.QUERIES);
@@ -69,6 +76,11 @@ public class MySqlOrderDao implements OrderDao {
         return result;
     }
 
+    /**
+     * Counts all Orders made by User
+     * @param user User which Orders to count
+     * @return count of Orders or zero if there is none
+     */
     @Override
     public int countAllByUser(User user) {
         String query = PropertiesUtil.getProperty("order.find.all.by.user.count", PropertiesUtil.Source.QUERIES);

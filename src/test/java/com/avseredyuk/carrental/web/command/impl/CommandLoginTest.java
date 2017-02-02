@@ -7,7 +7,6 @@ import com.avseredyuk.carrental.service.impl.factory.ServiceFactoryImplementatio
 import com.avseredyuk.carrental.util.RandomUtil;
 import com.avseredyuk.carrental.web.command.Command;
 import com.avseredyuk.carrental.web.command.impl.factory.CommandFactory;
-import com.avseredyuk.carrental.web.exception.CommandRedirectException;
 import com.avseredyuk.carrental.web.util.HashingUtil;
 import com.avseredyuk.carrental.web.util.wrapper.RequestWrapper;
 import com.avseredyuk.carrental.web.util.wrapper.SessionWrapper;
@@ -21,7 +20,6 @@ import static com.avseredyuk.carrental.web.util.ConstantClass.*;
  * Created by lenfer on 1/30/17.
  */
 public class CommandLoginTest extends Utils {
-    public static final String REDIRECT_URL = "someurl";
     RequestWrapper req = mock(RequestWrapper.class);
     SessionWrapper session = mock(SessionWrapper.class);
     UserService userService = ServiceFactoryImplementation.getInstance().getUserService();
